@@ -1,0 +1,71 @@
+name: Test
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: plugins/compact-plus
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7.0.0
+
+      - name: Validate marketplace and plugin
+        working-directory: .
+        run: |
+          python3 -m json.tool .claude-plugin/marketplace.json >/dev/null
+          python3 -m json.tool plugins/compact-plus/.claude-plugin/plugin.json >/dev/null
+          marketplace_version="$(python3 -c 'import json; print(json.load(open(".claude-plugin/marketplace.json", encoding="utf-8"))["plugins"][0]["version"])')"
+          plugin_version="$(python3 -c 'import json; print(json.load(open("plugins/compact-plus/.claude-plugin/plugin.json", encoding="utf-8"))["version"])')"
+          test "$marketplace_version" = "$plugin_version"
+
+      - name: Validate JSON hooks
+        run: python3 -m json.tool hooks/hooks.json >/dev/null
+
+      - name: Check Python syntax
+        run: python3 -m py_compile scripts/checkpoint.py
+
+      - name: Check bash syntax
+        run: bash -n hooks/*.sh tests/*.sh
+
+      - name: Check no tracked symlinks
+        working-directory: .
+        run: |
+          if git ls-files -s | grep '^120000'; then
+            printf '%s\n' 'Tracked symlinks are not allowed.'
+            exit 1
+          fi
+
+      - name: Check state summary heading contract
+        run: |
+          for heading in \
+            '^# Compact Prep State$' \
+            '^## Goal and Definition of Done$' \
+            '^## Authoritative Documents$' \
+            '^## Active Plan$' \
+            '^## Current Phase and Tasks$' \
+            '^## TaskList Summary$' \
+            '^## Session Decisions$' \
+            '^## Rejected Hypotheses$' \
+            '^## Constraints and Blockers$' \
+            '^## Git State$' \
+            '^## Pull Request State$' \
+            '^## Loop State and Approval Scope$' \
+            '^## Worker Topology$' \
+            '^## Skills Invoked$' \
+            '^## Editing Files$' \
+            '^## Failed Attempts$' \
+            '^## Next Deterministic Action$' \
+            '^## Unverified Items$' \
+            '^## Recovery Metadata$'; do
+            grep -Eq "$heading" prompts/state-summary.md
+          done
+
+      - name: Test checkpoint hooks
+        run: bash tests/checkpoint-hooks.sh

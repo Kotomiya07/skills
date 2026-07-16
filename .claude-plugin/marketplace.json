@@ -1,0 +1,21 @@
+{
+  "name": "kotomiya07-skills",
+  "owner": {
+    "name": "Kotomiya07"
+  },
+  "metadata": {
+    "description": "Claude Code plugins maintained by Kotomiya07.",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "compact-plus",
+      "description": "Preserve Claude Code session state before and after context compaction.",
+      "version": "1.1.0",
+      "author": {
+        "name": "u1"
+      },
+      "source": "./plugins/compact-plus"
+    }
+  ]
+}
