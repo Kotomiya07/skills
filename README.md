@@ -56,4 +56,4 @@ claude plugin install compact-plus@kotomiya07-skills --scope user
 
 `compact-plus`は[`u-ichi/compact-plus`](https://github.com/u-ichi/compact-plus)を元に、checkpoint保存・再注入・redaction・handoff復旧を強化した派生版です。
 
-MIT Licenseで配布し、原著作者のcopyright noticeは[`LICENSE`](./LICENSE)および[`plugins/compact-plus/LICENSE`](./plugins/compact-plus/LICENSE)に保持しています。
+リポジトリ全体の新規部分は[`LICENSE`](./LICENSE)のMIT License（Copyright (c) 2026 Kotomiya07）で配布します。`compact-plus`の原著作者のcopyright noticeは[`plugins/compact-plus/LICENSE`](./plugins/compact-plus/LICENSE)に保持しています。
