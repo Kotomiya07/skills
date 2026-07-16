@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
+  "name": "japanese-writing",
+  "version": "1.0.0",
+  "description": "Improve natural Japanese, technical rigor, and cognitive rhythm.",
+  "author": {
+    "name": "Kotomiya07"
+  },
+  "keywords": [
+    "claude-code",
+    "japanese",
+    "technical-writing",
+    "editing"
+  ],
+  "skills": "./skills/"
+}

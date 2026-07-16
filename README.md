@@ -1,12 +1,13 @@
 # skills
 
-Kotomiya07 が管理する Claude Code plugin の配布リポジトリです。現時点では `compact-plus` のみを収録しています。
+Kotomiya07 が管理する Claude Code plugin の配布リポジトリです。セッション復旧と日本語文章作成のプラグインを収録しています。
 
 ## Plugins
 
 | Plugin | Version | 概要 |
 |---|---:|---|
 | [`compact-plus`](./plugins/compact-plus/) | 1.1.0 | `/compact` 前後で構造化 checkpoint を保存・再注入し、同一 session の継続性を強化します。 |
+| [`japanese-writing`](./plugins/japanese-writing/) | 1.0.0 | 自然な日本語、技術文の構成・論証、長文の認知リズムを改善します。 |
 
 ## compact-plus の導入
 
