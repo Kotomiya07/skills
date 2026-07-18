@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
+  "name": "semantic-generation",
+  "version": "1.0.0",
+  "description": "Fix referents and semantic roles before introducing labels in designs, reports, and code identifiers.",
+  "author": {
+    "name": "Yuichi Uemura",
+    "url": "https://x.com/u1"
+  },
+  "keywords": [
+    "claude-code",
+    "semantic-generation",
+    "design",
+    "terminology",
+    "naming"
+  ],
+  "skills": "./skills/"
+}

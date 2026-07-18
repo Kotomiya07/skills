@@ -25,6 +25,15 @@
         "name": "Kotomiya07"
       },
       "source": "./plugins/japanese-writing"
+    },
+    {
+      "name": "semantic-generation",
+      "description": "Fix referents and semantic roles before introducing labels in designs, reports, and code identifiers.",
+      "version": "1.0.0",
+      "author": {
+        "name": "Yuichi Uemura"
+      },
+      "source": "./plugins/semantic-generation"
     }
   ]
 }
