@@ -1,6 +1,6 @@
 # skills
 
-Kotomiya07 が管理する Claude Code plugin の配布リポジトリです。セッション復旧、日本語文章作成、意味と命名の整理を支援するプラグインを収録しています。
+Kotomiya07 が管理する Claude Code plugin の配布リポジトリです。セッション復旧、日本語文章作成、意味と命名の整理、生成物の仕上げを支援するプラグインを収録しています。
 
 ## Plugins
 
@@ -9,6 +9,7 @@ Kotomiya07 が管理する Claude Code plugin の配布リポジトリです。�
 | [`compact-plus`](./plugins/compact-plus/) | 1.1.0 | `/compact` 前後で構造化 checkpoint を保存・再注入し、同一 session の継続性を強化します。 |
 | [`japanese-writing`](./plugins/japanese-writing/) | 1.0.0 | 自然な日本語、技術文の構成・論証、長文の認知リズムを改善します。 |
 | [`semantic-generation`](./plugins/semantic-generation/) | 1.0.0 | 語を決める前に指示対象と役割を対応表へ固定し、曖昧な造語や命名を防ぎます。 |
+| [`sanitize-artifacts`](./plugins/sanitize-artifacts/) | 1.0.0 | 生成物から制作過程の不要な痕跡を取り除き、対象読者向けの独立した成果物へ整えます。 |
 
 ## compact-plus の導入
 

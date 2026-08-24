@@ -34,6 +34,15 @@
         "name": "Yuichi Uemura"
       },
       "source": "./plugins/semantic-generation"
+    },
+    {
+      "name": "sanitize-artifacts",
+      "description": "Remove production-process residue from generated artifacts while preserving their intended content.",
+      "version": "1.0.0",
+      "author": {
+        "name": "Kotomiya07"
+      },
+      "source": "./plugins/sanitize-artifacts"
     }
   ]
 }

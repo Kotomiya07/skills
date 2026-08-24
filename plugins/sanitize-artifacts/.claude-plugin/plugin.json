@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
+  "name": "sanitize-artifacts",
+  "version": "1.0.0",
+  "description": "Remove production-process residue from generated artifacts while preserving their intended content.",
+  "author": {
+    "name": "Kotomiya07"
+  },
+  "keywords": [
+    "claude-code",
+    "artifact",
+    "editing",
+    "quality-assurance",
+    "sanitization"
+  ],
+  "skills": "./skills/"
+}
