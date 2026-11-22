@@ -10,6 +10,7 @@ Kotomiya07 が管理する Claude Code plugin の配布リポジトリです。�
 | [`japanese-writing`](./plugins/japanese-writing/) | 1.0.0 | 自然な日本語、技術文の構成・論証、長文の認知リズムを改善します。 |
 | [`semantic-generation`](./plugins/semantic-generation/) | 1.0.0 | 語を決める前に指示対象と役割を対応表へ固定し、曖昧な造語や命名を防ぎます。 |
 | [`sanitize-artifacts`](./plugins/sanitize-artifacts/) | 1.0.0 | 生成物から制作過程の不要な痕跡を取り除き、対象読者向けの独立した成果物へ整えます。 |
+| [`consulting-pptx`](./plugins/consulting-pptx/) | 1.0.0 | スライド設計規約と機械チェックで経営会議品質のデッキと A0／A1 ポスターを作ります。学会発表向けの作法も含みます。 |
 
 ## compact-plus の導入
 
@@ -49,6 +50,7 @@ claude plugin install compact-plus@kotomiya07-skills --scope user
 
 ## 詳細
 
+- [consulting-pptx README](./plugins/consulting-pptx/README.md)
 - [compact-plus README](./plugins/compact-plus/README.md)
 - [compact-plus 日本語README](./plugins/compact-plus/README.ja.md)
 - [Architecture](./plugins/compact-plus/docs/architecture.md)
@@ -60,3 +62,5 @@ claude plugin install compact-plus@kotomiya07-skills --scope user
 `compact-plus`は[`u-ichi/compact-plus`](https://github.com/u-ichi/compact-plus)を元に、checkpoint保存・再注入・redaction・handoff復旧を強化した派生版です。
 
 リポジトリ全体の新規部分は[`LICENSE`](./LICENSE)のMIT License（Copyright (c) 2026 Kotomiya07）で配布します。`compact-plus`の原著作者のcopyright noticeは[`plugins/compact-plus/LICENSE`](./plugins/compact-plus/LICENSE)に保持しています。
+
+`consulting-pptx`は[`carnot-tech/jinba-consulting-pptx-skill`](https://github.com/carnot-tech/jinba-consulting-pptx-skill)の派生版で、スキル本体には上流のPolyForm Noncommercial 1.0.0が適用されます（上記MITの対象外）。ライセンス関係のファイルは[`plugins/consulting-pptx/skills/consulting-pptx-skill/`](./plugins/consulting-pptx/skills/consulting-pptx-skill/)内に保持しています。詳しくは[consulting-pptx README](./plugins/consulting-pptx/README.md)を見てください。

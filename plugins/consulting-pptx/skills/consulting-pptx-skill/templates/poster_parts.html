@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="ja"><head><meta charset="utf-8">
+<title>A0/A1 縦ポスター パーツテンプレート</title>
+<!--
+  ============================================================
+  A0 / A1 縦ポスターのパーツ集（ポスター 1 枚 = section.poster 1 つ。中に pp- 接頭辞のパーツ div を縦に積む）
+  ブラウザで開くと、全パーツ入りの A0 サンプルポスターとして表示される（パーツ別のサンプルは持たない）。
+  規約の正典: references/slide-rules.md（角丸なし・塗り枠に罫線なし・グラデーションと影なし・下部の結論帯なし・表は §6・文体は §7）
+  1 枚 = 1 メッセージ。結論を最上段に最大の文字で置く。読み順は左上から下へ、段は左から右。
+  サンプル文は架空の学会発表。実物では内容を丸ごと差し替える。
+
+  ■ 判型（1 か所で決める）
+    :root の --poster-w / --poster-h / --k の 3 値だけを変える。
+      A0: --poster-w:841mm; --poster-h:1189mm; --k:1
+      A1: --poster-w:594mm; --poster-h:841mm;  --k:0.7064（= 594 ÷ 841）
+    余白・間隔・罫線・文字サイズはすべて calc(N * var(--k)) で書いてあり、3 値の変更だけで比例して拡縮する。
+    ページ規則は var() が使えないため、style 内の「ページ規則 1 行」の size だけは生成スクリプト（new_poster）が
+    --poster-w / --poster-h と同じ値に書き換える（差し込み位置はその行の直前コメントに明記）。
+
+  ■ 文字サイズ（A0 の値。A1 は × k。check_deck の下限は本文 24pt）
+    タイトル 100pt / 結論 64pt / 節見出し 52pt / 著者 44pt / 表題・所属 32pt / 本文・表 28pt / キャプション・参考文献 26pt
+    どの文字も 26pt を下回らない。
+
+  ■ パーツの切り出し規則（new_poster 用）
+    1. 区切り: 各パーツの直前に、「═══ パーツNN: 名前（説明） ═══」を含む HTML コメントが 1 つある（NN は 2 桁の連番）。
+       名前は最初の全角「（」・「═」・改行の手前まで。正規表現は new_deck.py の part_names と同じ
+       ═══ パーツ(\d+): ([^（═\n]+)
+    2. 断片: 自分の区切りコメントの直後から、次の区切りコメントの直前まで（最後のパーツは section.poster の閉じタグの直前まで）。
+       前後の空白は strip する。断片は div.pp-… 1 個で完結し、コメントも兄弟要素も含まない。
+    3. 組み立て: section.poster の開きタグ、選んだ断片（読み順に並べる）、閉じタグ、の順。section を入れ子にしない。
+    4. CSS: 最初の閉じコメント記号より後ろの style 要素の中身を丸ごと使う（new_deck.py の split_css と同じ）。
+       断片は pp- 接頭辞のクラスと :root のトークンだけに依存し、パーツ同士は依存しない。
+    5. new_deck.py の sections() は section.poster 全体を 1 件で返す。パーツ単位の切り出しには使わず、上の 1〜2 で切る。
+  ============================================================
+-->
+<style>
+/* ── デザイントークン（freeform_parts_16x9.html と同一の warm スキン） ── */
+:root{
+  --page-bg:#f2efe9; --slide-bg:#ffffff;
+  --ink:#322014;        /* 本文 */
+  --navy:#322014;       /* 見出し・罫線・濃色パネル（変数名は Bレーン CSS と共通のため navy のまま） */
+  --accent:#5a3921;     /* 軸ラベル・番号・強調 */
+  --cyan:#c5a681;       /* 濃色パネル上の小見出し・淡い強調 */
+  --muted:#8a7b6b;      /* 出典・注記 */
+  --rule:#c5a681;       /* 行間罫 */
+  --hairline:#e2dcd2;   /* さらに薄い罫・非強調セル */
+  --soft:#efeee8;       /* 塗りカード */
+  --rose:#a22727;       /* 意味を持つ赤（悪化・✕）だけに使う */
+  --font-sans:"Helvetica Neue",Arial,Helvetica,"Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif;
+  --font-serif:"Hiragino Mincho ProN","Yu Mincho","Songti SC",Georgia,"Times New Roman",serif;
+  /* ── 判型（ここ 3 値だけで A0 / A1 を切り替える） ── */
+  --poster-w:841mm; --poster-h:1189mm; --k:1;
+}
+/* cool スキン（ネイビー）にするときは :root の色を次に差し替える:
+   --page-bg:#f2f2f0; --slide-bg:#ffffff; --ink:#050505; --navy:#071b2c; --accent:#1e5f8c; --cyan:#79c8dc;
+   --muted:#666b70; --rule:#b9bec3; --hairline:#d9dcdf; --soft:#e7f4f8; --rose:#d94c68; */
+/* 用紙サイズ宣言。CSS 変数は使えないため、生成スクリプトがこの 1 行の size を --poster-w --poster-h と同じ値に書き換える（A1 は 594mm 841mm） */
+@page{size:841mm 1189mm;margin:0}
+html,body{margin:0;background:var(--page-bg);font-family:var(--font-sans);color:var(--ink);-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.poster{width:var(--poster-w);height:var(--poster-h);margin:calc(8mm * var(--k)) auto;box-sizing:border-box;padding:calc(26mm * var(--k)) calc(36mm * var(--k)) calc(22mm * var(--k));background:var(--slide-bg);overflow:hidden;display:flex;flex-direction:column;gap:calc(14mm * var(--k));font-size:calc(28pt * var(--k));line-height:1.6;word-break:auto-phrase;break-inside:avoid;break-after:avoid}
+
+/* ── 共通: 節見出し・箇条・図の枠 ── */
+.pp-h{margin:0 0 calc(7mm * var(--k));padding-bottom:calc(3mm * var(--k));border-bottom:calc(2mm * var(--k)) solid var(--navy);display:flex;align-items:baseline;gap:calc(8mm * var(--k));font-family:var(--font-serif);font-size:calc(52pt * var(--k));line-height:1.25;font-weight:700;color:var(--navy)}
+.pp-no{color:var(--accent)}
+.pp-bul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:calc(4mm * var(--k))}
+.pp-bul li{position:relative;padding-left:calc(12mm * var(--k))}
+.pp-bul li::before{content:"";position:absolute;left:0;top:calc(5.7mm * var(--k));width:calc(4.4mm * var(--k));height:calc(4.4mm * var(--k));background:var(--accent)}
+.pp-frame{box-sizing:border-box;min-height:calc(70mm * var(--k));border:calc(0.8mm * var(--k)) solid var(--rule);display:flex;align-items:center;justify-content:center;text-align:center;color:var(--muted)}
+.pp-col{min-width:0}
+
+/* ── パーツ01 タイトル帯 ── */
+.pp-title{display:grid;grid-template-columns:1fr calc(170mm * var(--k));gap:calc(24mm * var(--k));align-items:start;padding-bottom:calc(12mm * var(--k));border-bottom:calc(3mm * var(--k)) solid var(--navy)}
+.pp-title h1{margin:0;font-family:var(--font-serif);font-size:calc(100pt * var(--k));line-height:1.25;font-weight:700;color:var(--navy);text-wrap:balance}
+.pp-authors{margin-top:calc(9mm * var(--k));font-size:calc(44pt * var(--k));line-height:1.4;font-weight:700;color:var(--accent)}
+.pp-affil{margin-top:calc(2mm * var(--k));font-size:calc(32pt * var(--k));line-height:1.4}
+.pp-title-side{display:flex;flex-direction:column;gap:calc(6mm * var(--k))}
+.pp-logo{height:calc(80mm * var(--k));font-size:calc(28pt * var(--k))}
+.pp-pno{font-size:calc(32pt * var(--k));line-height:1.4;font-weight:700;color:var(--navy)}
+
+/* ── パーツ02 結論ボックス ── */
+.pp-abstract{background:var(--soft);border:0;padding:calc(14mm * var(--k)) calc(22mm * var(--k)) calc(16mm * var(--k))}
+.pp-kicker{font-family:var(--font-serif);font-size:calc(36pt * var(--k));line-height:1.4;font-weight:700;color:var(--accent)}
+.pp-lead{margin:calc(2mm * var(--k)) 0 calc(9mm * var(--k));font-family:var(--font-serif);font-size:calc(64pt * var(--k));line-height:1.35;font-weight:700;color:var(--navy);text-wrap:balance}
+.pp-abstract .pp-bul{font-size:calc(32pt * var(--k))}
+.pp-abstract .pp-bul li{padding-left:calc(14mm * var(--k))}
+.pp-abstract .pp-bul li::before{top:calc(6.5mm * var(--k));width:calc(5mm * var(--k));height:calc(5mm * var(--k))}
+
+/* ── パーツ03 本文セクション ── */
+.pp-sec-body{display:grid;grid-template-columns:1fr 1fr;gap:calc(20mm * var(--k))}
+
+/* ── パーツ04・05 グリッド ── */
+.pp-g2{display:grid;grid-template-columns:1fr 1fr;gap:calc(20mm * var(--k))}
+.pp-g3{display:grid;grid-template-columns:repeat(3,1fr);gap:calc(20mm * var(--k))}
+
+/* ── パーツ06 図とキャプション ── */
+.pp-fig{margin:0}
+.pp-fig .pp-frame{height:calc(80mm * var(--k))}
+.pp-fig figcaption{margin-top:calc(4mm * var(--k));font-size:calc(26pt * var(--k));line-height:1.5}
+.pp-fig figcaption b{margin-right:calc(5mm * var(--k));color:var(--accent)}
+
+/* ── パーツ07 軸つき表（行見出し = td.ax、列見出し = th。表題は表の上） ── */
+.pp-axh{margin-bottom:calc(3mm * var(--k));font-family:var(--font-serif);font-size:calc(32pt * var(--k));line-height:1.4;font-weight:700;color:var(--navy)}
+.pp-axh b{margin-right:calc(5mm * var(--k));color:var(--accent)}
+.pp-tbl table{width:100%;table-layout:fixed;border-collapse:collapse;font-size:calc(28pt * var(--k))}
+.pp-tbl th{padding:calc(3mm * var(--k)) calc(6mm * var(--k));background:none;text-align:right;font-size:calc(32pt * var(--k));font-weight:700;color:var(--navy);border-bottom:calc(1.4mm * var(--k)) solid var(--navy)}
+.pp-tbl td{padding:calc(3mm * var(--k)) calc(6mm * var(--k));text-align:right;line-height:1.5;color:var(--ink);border-bottom:calc(0.6mm * var(--k)) solid var(--rule)}
+.pp-tbl tr:last-child td{border-bottom:0}
+.pp-tbl th.ax,.pp-tbl td.ax{width:34%;text-align:left;border-right:calc(1.4mm * var(--k)) solid var(--navy)}
+.pp-tbl td.ax{font-family:var(--font-serif);font-size:calc(32pt * var(--k));font-weight:700;color:var(--accent)}
+.pp-tbl tr.best td{font-weight:700;color:var(--navy)}
+.pp-tbl tr.best td.ax{color:var(--accent)}
+
+/* ── パーツ08 数字カード ── */
+.pp-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:calc(10mm * var(--k))}
+.pp-stat{display:flex;flex-direction:column;padding:calc(9mm * var(--k)) calc(11mm * var(--k));background:var(--soft);border:0;color:var(--navy)}
+.pp-stat.dk{background:var(--navy);color:#fff}
+.pp-stat .lb{font-size:calc(28pt * var(--k));line-height:1.4;font-weight:700;color:var(--accent)}
+.pp-stat .v{margin:calc(2mm * var(--k)) 0;font-size:calc(96pt * var(--k));line-height:1.1;font-weight:700}
+.pp-stat .v i{font-style:normal;font-size:calc(48pt * var(--k));margin-left:calc(2mm * var(--k))}
+.pp-stat .cp{font-size:calc(26pt * var(--k));line-height:1.5;color:var(--muted)}
+.pp-stat.dk .lb,.pp-stat.dk .cp{color:var(--cyan)}
+
+/* ── パーツ09 フッター（参考文献・謝辞・問い合わせ。最下段に寄せる） ── */
+.pp-foot{margin-top:auto;display:grid;grid-template-columns:1.7fr 1fr 1fr;gap:calc(16mm * var(--k));padding-top:calc(7mm * var(--k));border-top:calc(2mm * var(--k)) solid var(--navy);font-size:calc(26pt * var(--k));line-height:1.5}
+.pp-foot h3{margin:0 0 calc(2mm * var(--k));font-family:var(--font-serif);font-size:calc(28pt * var(--k));line-height:1.4;font-weight:700;color:var(--accent)}
+.pp-foot p,.pp-foot ol{margin:0}
+.pp-foot ol{list-style:none;padding:0;display:flex;flex-direction:column;gap:calc(3mm * var(--k))}
+
+@media print{
+  html,body{background:#fff}
+  .poster{margin:0;box-shadow:none}
+}
+</style>
+</head><body>
+<section class="poster">
+
+<!-- ═══ パーツ01: タイトル帯（題名・著者・所属・ロゴ枠。最上段に 1 つ） ═══ -->
+<div class="pp-title">
+  <div>
+    <h1>話者交代の手がかりで会議要約の誤りを3割減らす</h1>
+    <div class="pp-authors">鷹野 澪・久世 柊・森川 澄</div>
+    <div class="pp-affil">架空大学 情報学部 音声言語研究室</div>
+  </div>
+  <div class="pp-title-side">
+    <div class="pp-frame pp-logo">所属ロゴ</div>
+    <div class="pp-pno">発表番号 P-117</div>
+  </div>
+</div>
+
+<!-- ═══ パーツ02: 結論ボックス（ポスターの主張を最大の文字で。タイトル帯の直下） ═══ -->
+<div class="pp-abstract">
+  <div class="pp-kicker">結論</div>
+  <p class="pp-lead">話者交代と無音の長さを入力に足すと、会議要約の事実誤りが31.4%から21.3%に減る</p>
+  <ul class="pp-bul">
+    <li>120会議・計86時間の模擬会議音声で評価した</li>
+    <li>網羅率は68.2%から71.4%へ上がり、処理時間は2秒しか増えない</li>
+    <li>追加するのは文字起こしの付加情報だけで、要約モデルは作り直さない</li>
+  </ul>
+</div>
+
+<!-- ═══ パーツ03: 本文セクション（節見出し＋箇条＋図の枠。全幅） ═══ -->
+<div class="pp-sec">
+  <h2 class="pp-h"><span class="pp-no">1</span>背景と課題</h2>
+  <div class="pp-sec-body">
+    <ul class="pp-bul">
+      <li>文字起こしだけを読む要約では、発言者を取り違えやすい</li>
+      <li>沈黙をはさんで話題が変わっても、文面では区別がつかない</li>
+      <li>事実誤りの4割は、決定事項の主語を取り違えた誤りである</li>
+    </ul>
+    <div class="pp-frame">誤りの例（発言者の取り違え）</div>
+  </div>
+</div>
+
+<!-- ═══ パーツ04: 2段グリッド（見出し付きの本文ブロックを 2 つ横に並べる） ═══ -->
+<div class="pp-g2">
+  <div class="pp-col">
+    <h2 class="pp-h"><span class="pp-no">2</span>提案手法</h2>
+    <ul class="pp-bul">
+      <li>文字起こしに、話者交代の位置を示すタグを挿入する</li>
+      <li>発話の間の無音を5段階に丸め、文頭に添える</li>
+      <li>要約モデルは既存のものをそのまま使う</li>
+    </ul>
+  </div>
+  <div class="pp-col">
+    <h2 class="pp-h"><span class="pp-no">3</span>実験設定</h2>
+    <ul class="pp-bul">
+      <li>模擬会議コーパス120会議（計86時間）で評価する</li>
+      <li>参加者は3〜8人、話題は製品企画と日程調整である</li>
+      <li>事実誤り率は3人の評価者が文単位で判定する</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ═══ パーツ05: 3段グリッド（見出し付きの本文ブロックを 3 つ横に並べる） ═══ -->
+<div class="pp-g3">
+  <div class="pp-col">
+    <h2 class="pp-h"><span class="pp-no">4</span>話者交代</h2>
+    <ul class="pp-bul">
+      <li>事実誤り率が31.4%から24.9%に下がる</li>
+      <li>取り違えの多い会議ほど効果が大きい</li>
+    </ul>
+  </div>
+  <div class="pp-col">
+    <h2 class="pp-h"><span class="pp-no">5</span>無音の長さ</h2>
+    <ul class="pp-bul">
+      <li>事実誤り率は28.6%の改善にとどまる</li>
+      <li>単独では話題の切れ目を拾いきれない</li>
+    </ul>
+  </div>
+  <div class="pp-col">
+    <h2 class="pp-h"><span class="pp-no">6</span>併用の効果</h2>
+    <ul class="pp-bul">
+      <li>事実誤り率は21.3%まで下がる</li>
+      <li>二つの手がかりが互いの弱点を補う</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ═══ パーツ06: 図とキャプション（全幅の図の枠＋その下に図番号つきの説明） ═══ -->
+<figure class="pp-fig">
+  <div class="pp-frame">入力の構成ごとの事実誤り率（棒グラフ）</div>
+  <figcaption><b>図1</b>入力の構成ごとの事実誤り率（120会議の平均、低いほど良い）</figcaption>
+</figure>
+
+<!-- ═══ パーツ07: 軸つき表（行見出し・列見出しのある数値表。表題は表の上） ═══ -->
+<div class="pp-tbl">
+  <div class="pp-axh"><b>表1</b>入力の構成ごとの評価結果（120会議の平均）</div>
+  <table>
+    <thead>
+      <tr><th class="ax" scope="col">入力の構成</th><th scope="col">事実誤り率（%）</th><th scope="col">網羅率（%）</th><th scope="col">処理時間（秒）</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="ax">文字起こしのみ</td><td>31.4</td><td>68.2</td><td>41</td></tr>
+      <tr><td class="ax">話者交代タグを追加</td><td>24.9</td><td>70.5</td><td>42</td></tr>
+      <tr><td class="ax">無音の長さを追加</td><td>28.6</td><td>69.1</td><td>42</td></tr>
+      <tr class="best"><td class="ax">両方を併用</td><td>21.3</td><td>71.4</td><td>43</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ═══ パーツ08: 数字カード（主要な数字を 4 枚並べる。先頭の 1 枚だけ濃色） ═══ -->
+<div class="pp-stats">
+  <div class="pp-stat dk"><div class="lb">事実誤りの相対減少</div><div class="v">32<i>%</i></div><div class="cp">31.4%から21.3%へ</div></div>
+  <div class="pp-stat"><div class="lb">評価した会議</div><div class="v">120<i>件</i></div><div class="cp">計86時間、参加者3〜8人</div></div>
+  <div class="pp-stat"><div class="lb">網羅率の改善</div><div class="v">+3.2<i>pt</i></div><div class="cp">68.2%から71.4%へ</div></div>
+  <div class="pp-stat"><div class="lb">処理時間の増加</div><div class="v">+2<i>秒</i></div><div class="cp">1会議あたり41秒から43秒</div></div>
+</div>
+
+<!-- ═══ パーツ09: フッター（参考文献・謝辞・問い合わせ。最下段に寄せる） ═══ -->
+<div class="pp-foot">
+  <div>
+    <h3>参考文献</h3>
+    <ol>
+      <li>[1] 久世 柊, 鷹野 澪: 話者交代を手がかりにした会議要約. 架空学会論文誌 12(3), 2025.</li>
+      <li>[2] 森川 澄: 無音区間の長さと話題の切れ目. 架空音声シンポジウム, 2024.</li>
+    </ol>
+  </div>
+  <div>
+    <h3>謝辞</h3>
+    <p>本研究の一部は架空財団の研究助成による</p>
+  </div>
+  <div>
+    <h3>問い合わせ</h3>
+    <p>鷹野 澪<br>takano@example.org</p>
+  </div>
+</div>
+
+</section>
+</body></html>
