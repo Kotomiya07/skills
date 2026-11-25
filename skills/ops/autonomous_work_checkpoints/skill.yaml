@@ -1,0 +1,20 @@
+name: autonomous_work_checkpoints
+title: Check stalled autonomous work
+description: Detect stalled background work and missing promised records at periodic checkpoints, and resume safely or report the block, when running an autonomous program for the user.
+category: Work and knowledge
+include_in_prompt: false
+skill_improvement:
+  managed: true
+  status: active
+  measurement:
+    proxy_metric_id: user_caught_continuation_gap_rate
+    success_criterion: No runner restart is reported done that then dies within minutes without a follow-up liveness check, and no restart repeats a failing launch command, across checkpoint reports in the window.
+    window_days: 30
+  evidence_handles:
+  - message:assistant-msg-1f13c993-88ba-17a4-5e3f-71521c5c2207
+  - message:assistant-msg-297bd979-8e0e-f008-9499-154d55c6b0e7
+  needs_review: false
+  rationale: The honkoku audit runner died on a VM restart, its watch restart died within minutes on a bad launch command, and only a restart with the proven launch method verified alive after three minutes held. Silver died the same way on a gpu-01 reboot. The managed skill covers detached restart but not reboot detection, proven launch reuse, or a delayed liveness check.
+  review_after: 2026-12-21T07:42:18.672325+00:00
+  reviewed_at: 2026-11-21T07:42:18.672325+00:00
+  run_id: sirun_5bd0da50a7af42058ff4043bafc42611

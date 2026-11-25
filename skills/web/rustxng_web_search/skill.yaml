@@ -1,0 +1,5 @@
+name: "rustxng_web_search"
+title: "RustXNG web search"
+description: "Search the web through the local RustXNG metasearch service installed on this VM and return ranked titles, URLs and snippets for source discovery, when the user asks for RustXNG or an extra independent search route is useful."
+category: "Work and knowledge"
+include_in_prompt: true

@@ -1,0 +1,5 @@
+name: "parallel_web_search"
+title: "Parallel web search"
+description: "Search the web, fetch pages and get cited decisions through the Parallel MCP server in anonymous mode, when the user asks for Parallel or a fast verification against official sources is useful."
+category: "Work and knowledge"
+include_in_prompt: true

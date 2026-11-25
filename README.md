@@ -12,6 +12,19 @@ Kotomiya07 が管理する Claude Code plugin の配布リポジトリです。�
 | [`sanitize-artifacts`](./plugins/sanitize-artifacts/) | 1.0.0 | 生成物から制作過程の不要な痕跡を取り除き、対象読者向けの独立した成果物へ整えます。 |
 | [`consulting-pptx`](./plugins/consulting-pptx/) | 1.0.0 | スライド設計規約と機械チェックで経営会議品質のデッキと A0／A1 ポスターを作ります。学会発表向けの作法も含みます。 |
 
+## Skills
+
+自作スキルは `skills/<ドメイン>/<名前>/` に置き、ここを管理元として各環境へ配布する。ドメインは research / writing / docs / dev / ops / web の6種。
+
+| ドメイン | スキル |
+|---|---|
+| research | paper-revision, paper-details, survey, scientific-figure-making |
+| writing | natural-japanese, documenting-with-sources, writing-for-agents, ja-text-communication, title-improvement, explain |
+| docs | consulting-pptx-skill |
+| dev | semantic-generation, defect-discovery, space_async_jobs |
+| ops | t3-agent-ops, autonomous_work_checkpoints, nippo |
+| web | parallel_web_search, rustxng_web_search |
+
 ## compact-plus の導入
 
 ### Claude Code marketplaceから導入
