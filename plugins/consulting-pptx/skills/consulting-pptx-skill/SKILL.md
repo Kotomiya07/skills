@@ -19,7 +19,7 @@ description: スライド設計規約 slide-rules.md を核に、経営会議品
 | 8. 最後の確認 | `--phase check`、`snapshot.py` の PDF と画像 |
 | 9. フレッシュアイ・レビュー | `references/content-review-prompt.md` |
 
-- 工程1で足して読むもの：`local/`（git 管理外）の `slide-rules.local.md`・`forbid.txt`・`old-colors.txt`（local が優先。他社の書式で組むときは check_deck に `--brand none`）／テーマが AI・業務の自動化なら `references/jinba-context.md`／PPTX にするなら `--phase pptx`／登壇用ピッチなら `--phase pitch`／ポスター（A0/A1 縦）なら `--phase poster`（§10）と `templates/poster_parts.html`・`scripts/new_poster.py`／学会発表のデッキなら `references/academic-presentation.md`（構成・タイトル・情報量の作法。規約とぶつかる点は学会発表ではそちらを優先）。
+- 工程1で足して読むもの：`local/`（git 管理外）の `slide-rules.local.md`・`forbid.txt`・`old-colors.txt`（local が優先。他社の書式で組むときは check_deck に `--brand none`）／テーマが AI・業務の自動化なら `references/jinba-context.md`／PPTX にするなら `--phase pptx`／登壇用ピッチなら `--phase pitch`／ポスター（A0/A1 縦）なら `--phase poster`（§10）と `templates/poster_parts.html`・`scripts/new_poster.py`／学会発表のデッキなら `references/academic-presentation.md`（構成・タイトル・情報量の作法。規約とぶつかる点は学会発表ではそちらを優先）／登壇する研究発表なら `references/research-talk.md`（全体設計・発表練習・質疑応答の作法）。
 
 ## 手順
 
@@ -52,6 +52,8 @@ python3 scripts/snapshot.py myposter.html            # PDF 化。pdfinfo で1ペ
 ## 学会発表のデッキでは
 
 学会・研究会の発表デッキは、手順に加えて `references/academic-presentation.md` を工程1で読む。要点は、背景 → 課題 → 目的 → 着目点・仮説 → 手法 → 結果 → 結論 を「つなぐ言葉」でつなぐこと、スライドタイトルを項目名でなく要約の一文にすること、1スライド1データと図の近くに結論を置くこと、「ご清聴ありがとうございました」だけで終わらせずまとめで終えること。文字サイズの目安（タイトル 32–36 pt 等）もそちらにあり、規約の数値とぶつかる場合は学会発表ではそちらを優先する。
+
+登壇する研究発表（学会発表・学位審査・定例ミーティング等）では `references/research-talk.md` も工程1で読む。聴衆との格差を前提にした全体設計（材料の列挙 → スライド枚数の見積もり → バランス確認）、発表練習の3段階、質疑応答の原則がそちらにある。デッキだけを作り登壇しない場合は不要。
 
 ## PowerPoint（.pptx）が要るとき
 
